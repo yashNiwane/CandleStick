@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ symbol }} Stock Candlestick Chart</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="candlestick-chart"></div>
+    
+    <script>
+        var chartData = {{ chart_data|safe }};
+        
+        var trace = {
+            x: chartData.map(item => item.time),
+            close: chartData.map(item => item.close),
+            high: chartData.map(item => item.high),
+            low: chartData.map(item => item.low),
+            open: chartData.map(item => item.open),
+            type: 'candlestick',
+            xaxis: 'x',
+            yaxis: 'y'
+        };
+
+        var layout = {
+            title: '{{ symbol }} Stock Candlestick Chart',
+            dragmode: 'zoom',
+            showlegend: false,
+            xaxis: {
+                rangeslider: {visible: false},
+                title: 'Timeline'
+            },
+            yaxis: {
+                title: 'Price'
+            }
+        };
+
+        Plotly.newPlot('candlestick-chart', [trace], layout);
+    </script>
+</body>
+</html>
